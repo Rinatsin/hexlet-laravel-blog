@@ -11,10 +11,22 @@
 |
 */
 
+$team = [
+    ['name' => 'Hodor', 'position' => 'programmer'],
+    ['name' => 'Joker', 'position' => 'CEO'],
+    ['name' => 'Elvis', 'position' => 'CTO'],
+    ['name' => 'Ivan', 'position' => 'programmer'],
+    ['name' => 'Misha', 'position' => 'CEO'],
+    ['name' => 'Nikolai', 'position' => 'CTO'],
+    ['name' => 'Aleksei', 'position' => 'programmer'],
+    ['name' => 'Rinat', 'position' => 'teamlid'],
+    ['name' => 'Dmitrii', 'position' => 'Director'],
+];
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/about', function () {
-    return view('about');
+Route::get('/about', function () use ($team) {
+    return view('about', ['team' => $team]);
 });
