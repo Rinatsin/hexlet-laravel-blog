@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Routing\Route;
+
 $team = [
     ['name' => 'Hodor', 'position' => 'programmer'],
     ['name' => 'Joker', 'position' => 'CEO'],
@@ -29,4 +31,8 @@ Route::get('/', function () {
 
 Route::get('/about', function () use ($team) {
     return view('about', ['team' => $team]);
+});
+
+Route::get('/articles', function () {
+    return view('articles');
 });
