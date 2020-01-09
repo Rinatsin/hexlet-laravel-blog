@@ -15,6 +15,7 @@
             <div>
                 @yield('content')
             </div>
+               <p> @yield('pageLinks') </p>
         </div>
     </body>
 </html>

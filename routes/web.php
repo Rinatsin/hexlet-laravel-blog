@@ -11,28 +11,19 @@
 |
 */
 
-//use Illuminate\Routing\Route;
 
-$team = [
-    ['name' => 'Hodor', 'position' => 'programmer'],
-    ['name' => 'Joker', 'position' => 'CEO'],
-    ['name' => 'Elvis', 'position' => 'CTO'],
-    ['name' => 'Ivan', 'position' => 'programmer'],
-    ['name' => 'Misha', 'position' => 'CEO'],
-    ['name' => 'Nikolai', 'position' => 'CTO'],
-    ['name' => 'Aleksei', 'position' => 'programmer'],
-    ['name' => 'Rinat', 'position' => 'teamlid'],
-    ['name' => 'Dmitrii', 'position' => 'Director'],
-];
+//use Illuminate\Routing\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/about', function () use ($team) {
-    return view('about', ['team' => $team]);
-});
+Route::get('/about', 'PageController@about');
 
-Route::get('/articles', function () {
-    return view('articles');
-});
+
+Route::get('/articles', 'ArticleController@index')
+    ->name('articles.index');
+
+
+Route::get('/articles/{id}', 'ArticleController@show')
+    ->name('articles.show');

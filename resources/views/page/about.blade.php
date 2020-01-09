@@ -8,10 +8,6 @@
 @endsection
 
 @section('content')
-<p><b>Our team</b></p>
-@foreach ($team as $member)
-    <p> Name: {{$member['name']}} </p>
-    <p> Position: {{$member['position']}} </p>
-    </br>
-@endforeach
+<p>Наша команда разработчиков имеет большой
+опыт разработки проектов повышенной сложности</p>
 @endsection
