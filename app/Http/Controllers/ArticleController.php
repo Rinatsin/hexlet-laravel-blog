@@ -32,4 +32,39 @@ class ArticleController extends Controller
 
         return view('article.show', compact('article'));
     }
+
+    /**
+     * Show article by id
+     *
+     * @return View
+     */
+    public function create()
+    {
+        $article = new Article();
+        return view('article.create', compact('article'));
+    }
+
+    /**
+     * Show article by id
+     *
+     * @param Request $request Request object
+     *
+     * @return View
+     */
+    public function store(Request $request)
+    {
+        //Проверка данных
+        $this->validate($request, [
+            'name' => 'required|unique:articles',
+            'body' => 'required|min:100',
+        ]);
+
+        $article = new Article();
+        $article->fill($request->all());
+        $article->save();
+
+        $request->session()->flash('status', 'Your article has been created!');
+        return redirect()
+            ->route('articles.create');
+    }
 }
