@@ -14,7 +14,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(3);
+        $articles = Article::paginate(5);
 
         return view('article.index', compact('articles'));
     }
@@ -34,9 +34,9 @@ class ArticleController extends Controller
     }
 
     /**
-     * Show article by id
+     * Show the form to create a new blog post.
      *
-     * @return View
+     * @return Response
      */
     public function create()
     {
@@ -45,11 +45,11 @@ class ArticleController extends Controller
     }
 
     /**
-     * Show article by id
+     * Store a new blog post.
      *
-     * @param Request $request Request object
+     * @param Request $request http request object
      *
-     * @return View
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -65,6 +65,44 @@ class ArticleController extends Controller
 
         $request->session()->flash('status', 'Your article has been created!');
         return redirect()
-            ->route('articles.create');
+            ->route('articles.index');
+    }
+
+    /**
+     * Store a new blog post.
+     *
+     * @param int $id Article id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        return view('article.edit', compact('article'));
+    }
+
+        /**
+     * Store a new blog post.
+     *
+     * @param Request $request http request object
+     * @param integer $id      Article id
+     *
+     * @return Response
+     */
+    public function update(Request $request, $id)
+    {
+        $article = Article::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required|unique:articles, name' . $article->id,
+            'body' => 'required|min:100',
+        ]);
+
+        $article->fill($request->all());
+        $article->save();
+
+        $request->session()->flash('status', 'Your article has been updated!');
+        return redirect()
+            ->route('articles.index');
     }
 }

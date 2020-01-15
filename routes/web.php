@@ -15,6 +15,7 @@
 use App\Http\Controllers\ArticleController;
 //use Illuminate\Routing\Route;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -32,3 +33,9 @@ Route::get('/articles/{id}', 'ArticleController@show')
 
 Route::post('/articles', 'ArticleController@store')
     ->name('articles.store');
+
+Route::get('/articles/{id}/edit', 'ArticleController@edit')
+    ->name('articles.edit');
+
+Route::patch('/articles/{id}', 'ArticleController@update')
+    ->name('articles.update');
