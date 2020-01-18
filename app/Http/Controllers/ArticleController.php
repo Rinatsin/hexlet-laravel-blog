@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Http\Requests\ArticleStoreRequest;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -51,13 +52,10 @@ class ArticleController extends Controller
      *
      * @return Response
      */
-    public function store(Request $request)
+    public function store(ArticleStoreRequest $request)
     {
         //Проверка данных
-        $this->validate($request, [
-            'name' => 'required|unique:articles',
-            'body' => 'required|min:100',
-        ]);
+        $request->validated();
 
         $article = new Article();
         $article->fill($request->all());
@@ -89,14 +87,11 @@ class ArticleController extends Controller
      *
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleStoreRequest $request, $id)
     {
         $article = Article::findOrFail($id);
 
-        $this->validate($request, [
-            'name' => 'required|unique:articles, name' . $article->id,
-            'body' => 'required|min:100',
-        ]);
+        $request->validated();
 
         $article->fill($request->all());
         $article->save();
@@ -104,5 +99,24 @@ class ArticleController extends Controller
         $request->session()->flash('status', 'Your article has been updated!');
         return redirect()
             ->route('articles.index');
+    }
+
+    /**
+     * Delete a  blog post.
+     *
+     * @param int $id Article id
+     *
+     * @return void
+     */
+    public function destroy($id)
+    {
+        $article = Article::find($id);
+
+        if ($article) {
+            $article->delete();
+        }
+
+        //$request->session()->flash('status', 'Your article has been deleted!');
+        return redirect()->route('articles.index');
     }
 }
